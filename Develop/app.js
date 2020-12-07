@@ -10,33 +10,68 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const Employees = [];
-  
-function startPrompt() {
-inquirer.prompt([
-    {
-      type: 'input',
-      message: 'Please input member name.',
-      name: 'name',
-    },
-    {
-      type: 'input',
-      message: 'Please input member role.',
-      name: 'role',
-    },
-    {
-      type: 'input',
-      message: 'Please input member email.',
-      name: 'Email',
-    },
-    {
-      type: 'input',
-      message: 'Please input member id.',
-      name: 'id',
-    },
-  ]);
-};
 
+//App Start
 startPrompt();
+
+function getQuestion(roleName) {
+  switch (roleName) {
+    case "Engineering": 
+      return "What is your github email?"
+    
+    case "Intern":
+      return "What school do you go to?"
+
+    case "Manager":
+      return "What is your office number?"
+    
+    default: 
+      return "You need to choose a role"
+  }
+}
+
+function startPrompt() {
+
+
+inquirer.prompt([
+  {
+    type: 'input',
+    message: 'Please input member name.',
+    name: 'name',
+  },
+  {
+    type: 'input',
+    message: 'Please input member email.',
+    name: 'Email',
+  },
+  {
+    type: 'input',
+    message: 'Please input member id.',
+    name: 'id',
+  },
+  {
+    type: 'checkbox',
+    message: 'Please input member role.',
+    name: 'role',
+    choices: ['Engineer', 'Intern', 'Manager']
+  }
+]).then((employeeResponse) => {
+  console.log(employeeResponse);
+  const roleName = employeeResponse.role[0]
+  inquirer.prompt([
+    {
+      type: 'input',
+      message: getQuestion(roleName),
+      name: 'unique-value',
+    }
+    ]) .then((uniqueResponse) => {
+      console.log(uniqueResponse);
+    });
+  });
+}
+
+
+
 
 
 
