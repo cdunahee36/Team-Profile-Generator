@@ -5,18 +5,19 @@ const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 const render = require("./output/htmlRenderer");
+const Employee = require("./lib/Employee");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-const Employees = [];
+const employees = [];
 
 //App Start
 startPrompt();
 
 function getQuestion(roleName) {
   switch (roleName) {
-    case "Engineering": 
+    case "Engineer": 
       return "What is your github email?"
     
     case "Intern":
@@ -27,6 +28,35 @@ function getQuestion(roleName) {
     
     default: 
       return "You need to choose a role"
+  }
+}
+
+function getNewEmployee(employeeData, roleName, uniqueValue) {
+  console.log(roleName)
+  switch (roleName) {
+    case "Engineer": 
+      const engineer = new Engineer(employeeData.name, employeeData.id, employeeData.email)
+      engineer.github = uniqueValue
+      engineer.roleName = roleName
+    
+      return engineer
+
+    case "Intern":
+      const intern = new Intern(employeeData.name, employeeData.id, employeeData.email)
+      intern.school = uniqueValue
+      intern.roleName = roleName
+
+      return intern
+
+    case "Manager":
+      const manager = new Manager(employeeData.name, employeeData.id, employeeData.email)
+      manager.officeNumber = uniqueValue
+      manager.roleName = roleName
+      
+      return manager
+    
+    default: 
+      return new Employee(employeeData)
   }
 }
 
@@ -42,7 +72,7 @@ inquirer.prompt([
   {
     type: 'input',
     message: 'Please input member email.',
-    name: 'Email',
+    name: 'email',
   },
   {
     type: 'input',
@@ -56,16 +86,19 @@ inquirer.prompt([
     choices: ['Engineer', 'Intern', 'Manager']
   }
 ]).then((employeeResponse) => {
-  console.log(employeeResponse);
+  //console.log(employeeResponse);
   const roleName = employeeResponse.role[0]
   inquirer.prompt([
     {
       type: 'input',
       message: getQuestion(roleName),
-      name: 'unique-value',
+      name: 'uniqueValue'
     }
     ]) .then((uniqueResponse) => {
-      console.log(uniqueResponse);
+      const data = {"name": employeeResponse.name, "id": employeeResponse.id, "email": employeeResponse.email}
+      const employee = getNewEmployee(data, roleName, uniqueResponse.uniqueValue)
+      employees.push(employee)
+      console.log(employees)
     });
   });
 }
