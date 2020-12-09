@@ -17,6 +17,7 @@ const employees = [];
 //App Start
 startPrompt();
 
+//This function promts the user for their unique member question
 function getQuestion(roleName) {
   switch (roleName) {
     case "Engineer": 
@@ -33,6 +34,7 @@ function getQuestion(roleName) {
   }
 }
 
+//this function creates a new employee object from user input
 function getNewEmployee(employeeData, roleName, uniqueValue) {
   switch (roleName) {
     case "Engineer": 
@@ -61,6 +63,7 @@ function getNewEmployee(employeeData, roleName, uniqueValue) {
   }
 }
 
+//This function asks the user questions for the members
 function startPrompt() {
   inquirer.prompt([
     {
@@ -84,8 +87,9 @@ function startPrompt() {
       name: 'role',
       choices: ['Engineer', 'Intern', 'Manager']
     }
+
+    //This .then asks the user the special question
   ]).then((employeeResponse) => {
-    //console.log(employeeResponse);
     const roleName = employeeResponse.role[0]
     inquirer.prompt([
       {
@@ -102,6 +106,7 @@ function startPrompt() {
   });
 }
 
+//This function either writes the file or allows the user to add another member
 function promptForMore() {
   inquirer.prompt([
     {
@@ -120,14 +125,6 @@ function promptForMore() {
     }
   });
 }
-
-
-
-
-
-
-
-
 
 
 // Write code to use inquirer to gather information about the development team members,

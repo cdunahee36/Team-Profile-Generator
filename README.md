@@ -1,6 +1,5 @@
 # Team-Profile-Generator
 
-
 ## Application Description
 
 * The application takes the user input for each member of their team. The user
@@ -12,4 +11,10 @@ and create a team.html file which contains all the info input by the user.
 
 * A manager wants an application that can build a webpage with info they input.
 
-##
+## Installation
+
+* This application cannot be installed
+
+## Licencse
+
+* MIT
